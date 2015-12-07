@@ -1,8 +1,3 @@
-require 'optparse'
+require 'acchordingly/options'
+require 'acchordingly/runner'
 
-options = {}
-OptionParser.new do |opts|
-  opts.banner = "Usage: acchordingly.rb [options]"
-
-  opts.on( "-v", "")
-end

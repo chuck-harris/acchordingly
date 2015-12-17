@@ -1,5 +1,11 @@
 require 'prawn'
+require_relative 'song_document'
 
-class SongDocument < Prawn::Document
+module Acchordingly
+  class SongDocument < Prawn::Document
 
+    def initialize
+    end
+
+  end
 end

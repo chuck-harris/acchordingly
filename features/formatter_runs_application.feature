@@ -19,3 +19,12 @@ Feature: formatter runs application
     When I run the application with the arguments "--foo"
     Then I should see "invalid option: --foo"
 
+  Scenario: run application with a single song
+    Given I am at the command line
+    When I run the application with the arguments "--song data/test_songs/song1.pro"
+    Then I should see "Parsing song Test Song 1"
+
+  Scenario: run application with a songbook definition
+    Given I am at the command line
+    When I run the application with the arguments "--book data/test_books/book1.songbook"
+    Then I should see "Loading songbook Test Songbook 1"

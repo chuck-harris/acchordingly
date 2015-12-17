@@ -11,6 +11,10 @@ class OOutput
       messages << line
     end
   end
+
+  def write( message )
+    puts message
+  end
 end
 
 def o_output
@@ -39,6 +43,8 @@ end
 Then(/^I should see complete instructions$/) do
   expect( o_output.messages ).to include( 'Usage: acchordingly.rb [options]' )
   expect( o_output.messages ).to include( '    -h, --help                       Show this message' )
+  expect( o_output.messages ).to include( '    -s, --song SONGFILE              Format a single song from the ChordPro file SONGFILE' )
+  expect( o_output.messages ).to include( '    -b, --book BOOKFILE              Format a song book defined by the file BOOKFILE' )
 end
 
 Then(/^I should see "([^"]*)"$/) do |arg1|

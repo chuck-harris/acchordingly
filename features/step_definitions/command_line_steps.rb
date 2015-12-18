@@ -1,4 +1,7 @@
 require 'acchordingly/runner'
+require 'pdf/inspector'
+require 'stringio'
+require 'chronic'
 
 class OOutput
 
@@ -30,11 +33,11 @@ When(/^I run the application with the arguments "([^"]*)"$/) do |args|
     argv = args.split
     acchordingly = Acchordingly::Runner.new( o_output, argv )
     acchordingly.run
+    @pdfs = acchordingly.pdfs
   rescue SystemExit => e
 
   end
 end
-
 
 Then(/^I should see usage instructions$/) do
   expect( o_output.messages ).to include( 'Usage: acchordingly.rb [options]' )
@@ -47,6 +50,17 @@ Then(/^I should see complete instructions$/) do
   expect( o_output.messages ).to include( '    -b, --book BOOKFILE              Format a song book defined by the file BOOKFILE' )
 end
 
-Then(/^I should see "([^"]*)"$/) do |arg1|
-  expect( o_output.messages ).to include( arg1 )
+Then(/^I should see "([^"]*)"$/) do |message|
+  expect( o_output.messages ).to include( message )
 end
+
+And(/^(\d+) pdfs? should be generated$/) do |pdf_count|
+  expect( @pdfs.size ).to eq( pdf_count.to_i )
+end
+
+And(/^the ([^ ]*) pdf should have (\d+) page$/) do |ordinal, page_count|
+  index = Chronic::Numerizer.numerize( ordinal ).to_i - 1
+  page_analysis = PDF::Inspector::Page.analyze( @pdfs[index].render )
+  expect( page_analysis.pages.size ).to eq( page_count.to_i )
+end
+

@@ -2,9 +2,13 @@ require_relative '../acchordingly'
 
 module Acchordingly
   class Runner
+
+    attr_reader :pdfs
+
     def initialize( o_output, argv )
       $stdout = o_output
       @options = Options.new( o_output, argv )
+      @pdfs = []
     end
 
     def log( message )
@@ -13,12 +17,15 @@ module Acchordingly
 
     def run
 
-      if @options.song_file then
-        @document = Acchordingly::SongSheet.new @options.song_file
-      elsif @options.book_file then
-        @document = Acchordingly::SongBook.new @options.book_file
+      @options.song_files.each do |song_file|
+        document = Acchordingly::SongSheet.new song_file
+        @pdfs << document.pdf
       end
 
+      @options.book_files.each do |book_file|
+        document = Acchordingly::SongBook.new book_file
+        @pdfs << document.pdf
+      end
     end
   end
 end

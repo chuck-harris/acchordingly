@@ -1,1 +1,4 @@
 {title:Test Songbook 1}
+
+{song:data/test_songs/song1.pro}
+{song:data/test_songs/song2.pro}

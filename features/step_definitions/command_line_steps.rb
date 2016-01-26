@@ -58,9 +58,14 @@ And(/^(\d+) pdfs? should be generated$/) do |pdf_count|
   expect( @pdfs.size ).to eq( pdf_count.to_i )
 end
 
-And(/^the ([^ ]*) pdf should have (\d+) page$/) do |ordinal, page_count|
+And(/^the ([^ ]*) pdf should have (\d+) pages?$/) do |ordinal, page_count|
   index = Chronic::Numerizer.numerize( ordinal ).to_i - 1
   page_analysis = PDF::Inspector::Page.analyze( @pdfs[index].render )
   expect( page_analysis.pages.size ).to eq( page_count.to_i )
 end
 
+And(/^the ([^ ]*) pdf should say "([^"]*)"$/) do |ordinal, content|
+  index = Chronic::Numerizer.numerize( ordinal ).to_i - 1
+  text_analysis = PDF::Inspector::Text.analyze( @pdfs[index].render )
+  expect( text_analysis.strings).to include( content )
+end

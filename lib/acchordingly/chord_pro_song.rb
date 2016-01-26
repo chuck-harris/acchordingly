@@ -26,5 +26,10 @@ module Acchordingly
         end
       end
     end
+
+    def format( pdf )
+
+
+    end
   end
 end

@@ -11,19 +11,16 @@ module Acchordingly
       @pdfs = []
     end
 
-    def log( message )
-      $stdout.puts message
-    end
-
     def run
-
       @options.song_files.each do |song_file|
         document = Acchordingly::SongSheet.new song_file
+        document.format
         @pdfs << document.pdf
       end
 
       @options.book_files.each do |book_file|
         document = Acchordingly::SongBook.new book_file
+        document.format
         @pdfs << document.pdf
       end
     end

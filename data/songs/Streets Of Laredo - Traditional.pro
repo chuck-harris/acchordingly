@@ -1,27 +1,29 @@
 {title:Streets Of Laredo}
-{subtitle:Marty Robbins}
+{subtitle:Traditional}
 
 {comment:VERSE ONE}
 
 [C]As I walked [F]out in the s[C]treets of Lar[G]edo,
 as [C]I walked [F]out in Lar[C]edo one [G]day.
 I [C]spied a young c[F]owboy wrapped [C]all in white l[G]inen.
-W[AM]rapped in white l[Dm]inen as [G]cold as the [C]clay.
+W[Am]rapped in white l[Dm]inen as [G]cold as the [C]clay.
 
 {comment:CHORUS}
-
+{start_of_chorus}
 Oh [C]beat the drums s[F]lowly..and p[C]lay the pipe l[G]owly
 S[C]ing the dead [F]march..as you [C]carry me a[G]long
 Take [C]me to the v[F]alley there [C]lay the sod o[G]'re me
 [Am]I'm a young c[Dm]owboy and [G7]know I've done [C]wrong
+{end_of_chorus}
 
 {comment:VERSE TWO}
 
-[C]I see by your o[F]utfit..that [C]you are a c[]owboy.
+[C]I see by your o[F]utfit..that [C]you are a c[G]owboy.
 These w[C]ords he did [F]say as I  b[C]oldly walked [G]by
 Come [C]sit down be-[F]side me and [C]hear my sad s[G]tory
 Got [Am]shot in the [Dm]breast and I [G7]know I must [C]die.
 
+{chorus}
 
 {comment:VERSE THREE}
 

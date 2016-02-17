@@ -5,3 +5,6 @@ require 'acchordingly'
 
 acchordingly = Acchordingly::Runner.new( STDOUT, ARGV )
 acchordingly.run
+acchordingly.pdfs.zip( acchordingly.pdf_names ).each do |pdf, pdf_name|
+  pdf.render_file pdf_name
+end

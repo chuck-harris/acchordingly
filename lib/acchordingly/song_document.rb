@@ -32,19 +32,19 @@ module Acchordingly
         end
         @stylesheet.layout.each_line do |line|
           line.strip!
-          if line =~ /^$/ then
+          if line =~ /^$/
             @pdf.text ' '
           end
-          if line =~ /\{title\}/ then
+          if line =~ /\{title\}/
             format_title song
           end
-          if line =~ /\{subtitle\}/ then
+          if line =~ /\{subtitle\}/
             format_subtitle song
           end
-          if line =~ /\{chord_diagrams\}/ then
+          if line =~ /\{chord_diagrams\}/
             format_chord_diagrams song
           end
-          if line =~ /\{song\}/ then
+          if line =~ /\{song\}/
             format_song song
           end
         end
@@ -52,7 +52,7 @@ module Acchordingly
     end
 
     def format_title(song)
-      if song.title then
+      if song.title
         @pdf.text song.title.strip,
                   :align => @stylesheet.title_align,
                   :size => @stylesheet.title_size,
@@ -62,7 +62,7 @@ module Acchordingly
     end
 
     def format_subtitle(song)
-      if song.subtitle then
+      if song.subtitle
         @pdf.text song.subtitle.strip,
                   :align => @stylesheet.subtitle_align,
                   :size => @stylesheet.subtitle_size,
@@ -130,6 +130,7 @@ module Acchordingly
         end
 
         if line =~ /\{chorus\}/
+          #TODO properly render the chorus
           @pdf.text chorus
         end
 

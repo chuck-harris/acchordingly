@@ -84,6 +84,12 @@ module Acchordingly
     end
 
     def format_song(song)
+      song_parts = Hash.new
+      left_starting_point = 0
+      chord_height = @pdf.height_of 'C', :size => @stylesheet.chord_size, :style => @stylesheet.chord_style
+      if @stylesheet.is_song_part_labeled
+        left_starting_point = @pdf.width_of 'chorus 10  ', :style => @stylesheet.song_part_label_style, :size => @stylesheet.song_part_label_size
+      end
       in_chorus = false
       chorus = ''
       song.chord_pro.each_line do |line|
@@ -114,6 +120,19 @@ module Acchordingly
           @pdf.text ' '
         end
 
+        if line =~ /\{(chorus|verse|bridge|intro|outro|coda)\}/
+          tokens = /\{(chorus|verse|bridge|intro|outro|coda)\}/.match line
+          song_part = tokens.captures
+          if song_parts[song_part].nil?
+            song_parts[song_part] = 0
+          end
+          song_parts[song_part] += 1
+          line_vertical_position = @pdf.cursor - chord_height
+          @pdf.text_box "#{song_part[0].capitalize} #{song_parts[song_part]}", :at => [0, line_vertical_position], :size => @stylesheet.song_part_label_size,
+                        :style => @stylesheet.song_part_label_style, :color => @stylesheet.song_part_label_color
+          default_print = false
+        end
+
         if line =~ /\[[^\]]+\]/
           # this line contains at least one chord
           @pdf.text ' '
@@ -131,14 +150,14 @@ module Acchordingly
 
         if line =~ /\{chorus\}/
           #TODO properly render the chorus
-          @pdf.text chorus
+          #@pdf.text chorus
         end
 
         if default_print
           tokens = line.split /(\[[^\]]*\])/
           line_vertical_position = @pdf.cursor
-          chord_vertical_position = @pdf.cursor + @pdf.height_of( 'C', :size => 12, :style => :bold )
-          horizontal_position = 0
+          chord_vertical_position = @pdf.cursor + chord_height
+          horizontal_position = left_starting_point
           last_token_was_chord = false
           last_token_width = 0
           tokens.each do |token|
@@ -148,12 +167,12 @@ module Acchordingly
                 if last_token_was_chord
                   horizontal_position += last_token_width
                 end
-                @pdf.formatted_text_box [:text => chord_name, :color => 'FF0000'], :at => [horizontal_position, chord_vertical_position], :style => :bold, :size => 12
+                @pdf.formatted_text_box [:text => chord_name, :color => @stylesheet.chord_color], :at => [horizontal_position, chord_vertical_position], :style => @stylesheet.chord_style, :size => @stylesheet.chord_size
                 last_token_was_chord = true
-                last_token_width = @pdf.width_of chord_name + '  ', :style => :bold, :size => 12
+                last_token_width = @pdf.width_of chord_name + '  ', :style => @stylesheet.chord_style, :size => @stylesheet.chord_size
               else
-                width = @pdf.width_of token, :size => 12
-                @pdf.text_box token, :at => [horizontal_position, line_vertical_position], :size => 12
+                width = @pdf.width_of token, :size => @stylesheet.lyric_size, :style => @stylesheet.lyric_style
+                @pdf.text_box token, :at => [horizontal_position, line_vertical_position], :size => @stylesheet.lyric_size, :style => @stylesheet.lyric_style, :color => @stylesheet.lyric_color
                 horizontal_position += width
                 last_token_was_chord = false
               end
@@ -169,11 +188,11 @@ module Acchordingly
       if chord.nil?
         puts "Unknown chord #{chord_name}"
       else
-        name_height = @pdf.height_of('C', :size => 12, :style => :bold)
+        name_height = @pdf.height_of('C', :size => 10, :style => :bold)
 
         @pdf.bounding_box([x, y], :width => 30, :height => (name_height + 36)) do
           #@pdf.stroke_bounds
-          @pdf.text chord.name, :align => :center, :size => 12, :style => :bold
+          @pdf.text chord.name, :align => :center, :size => 10, :style => :bold
           @pdf.stroke do
             @pdf.rectangle [6, 36], 18, 24
             @pdf.vertical_line 12, 36, :at => 12
